@@ -1,0 +1,15 @@
+env_preparation:
+    web: 1 check ip
+         2 check yum repository
+            2.1 install packages
+         3 check nginx installation
+            3.1 install nginx
+         4 create nginx.service
+         5 advise service configuration document
+         6 start up php-fpm nginx, if ip is handover, start up php-fpm mariadb nginx
+            6.1 check port
+         7 test if php pages are recognised by nginx
+         8 config mariadb
+            8.1 install python3
+            8.2 install pymysql
+         9 deploy wordpress
