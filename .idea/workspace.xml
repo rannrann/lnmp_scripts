@@ -1,69 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="71baf598-07b1-47d5-9baa-b8d74c177b5e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/env_preparation/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/lnmp_scripts.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lnmp_scripts.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env_preparation/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/env_preparation/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env_preparation/web.py" beforeDir="false" afterPath="$PROJECT_DIR$/env_preparation/web.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/config_mysql_on_web.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/config_mysql_on_web.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.81321585">
-      <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/env_preparation/database.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1960">
-                  <caret line="107" column="8" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="8" />
-                  <folding>
-                    <element signature="e#0#40#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/scripts/mysql_env_check_on_handover.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="423">
-                  <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/env_preparation/web.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1">
-                  <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="30" selection-end-column="79" />
-                  <folding>
-                    <element signature="e#0#38#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/scripts/handover_service_enable.sh">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="70">
-                  <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -73,59 +48,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/scripts/config_mysql.py" />
-        <option value="$PROJECT_DIR$/scripts/mysql_env_check.py" />
-        <option value="$PROJECT_DIR$/scripts/pymysql_installer.sh" />
-        <option value="$PROJECT_DIR$/scripts/database_packages.sh" />
-        <option value="$PROJECT_DIR$/scripts/database_serivice_enable.sh" />
-        <option value="$PROJECT_DIR$/scripts/config_mysql_on_database.py" />
-        <option value="$PROJECT_DIR$/env_preparation/web.py" />
-        <option value="$PROJECT_DIR$/scripts/mysql_env_check_on_database.py" />
-        <option value="$PROJECT_DIR$/env_preparation/database.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
-  </component>
+  <component name="ProjectId" id="1xbwR7wKyv6SQbZH5JoA3HXWwZp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="lnmp_scripts" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lnmp_scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lnmp_scripts" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lnmp_scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="env_preparation" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lnmp_scripts" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lnmp_scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/scripts" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -134,19 +65,29 @@
       <recent name="G:\pycharm_projects\lnmp_scripts\scripts" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.database">
+    <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="lnmp_scripts" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/env_preparation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/env_preparation/database.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="web" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="lnmp_scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -159,6 +100,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/env_preparation/web.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -170,6 +112,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.database" />
         <item itemvalue="Python.web" />
       </list>
     </recent_temporary>
@@ -184,129 +127,48 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1630592739514</updated>
+      <workItem from="1630637086572" duration="5902000" />
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.70989305" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" weight="0.10248902" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.9560117" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329429" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.043923866" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/env_preparation/try_mysql.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/remote_host/ssh_connection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" lean-forward="true" selection-start-column="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/remote_host/sftp_document.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/handover_service_enable.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/database_packages.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="1" column="65" selection-start-line="1" selection-start-column="65" selection-end-line="1" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/database_serivice_enable.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/env_preparation/web.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
-          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="30" selection-end-column="79" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/config_mysql_on_database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="27" column="19" lean-forward="true" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/pymysql_installer.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="6" column="33" lean-forward="true" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/config_mysql_on_web.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-326">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/python_repo_creator.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/mysql_env_check_on_database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/mysql_env_check_on_handover.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/env_preparation/database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1960">
-          <caret line="107" column="8" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1866" height="527" key="GridCell.Tab.0.bottom" timestamp="1630641777387">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1866" height="527" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
+    <state width="1866" height="527" key="GridCell.Tab.0.center" timestamp="1630641777387">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1866" height="527" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
+    <state width="1866" height="527" key="GridCell.Tab.0.left" timestamp="1630641777387">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1866" height="527" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
+    <state width="1866" height="527" key="GridCell.Tab.0.right" timestamp="1630641777387">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1866" height="527" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
+    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1630640863169">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1630640863169" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/use_in_curriculum$database.coverage" NAME="database Coverage Results" MODIFIED="1630641777377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
+    <SUITE FILE_PATH="coverage/use_in_curriculum$web.coverage" NAME="web Coverage Results" MODIFIED="1630639922396" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
   </component>
 </project>

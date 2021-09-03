@@ -24,7 +24,7 @@ if if_user_exists[0] != 0:
 
 sql = "grant all on wordpress.* to wordpress@'localhost' identified by 'wordpress';"
 cursor.execute(sql)
-sql = "grant all on wordpress.* to wordpress@'' identified by 'wordpress';"
+sql = "grant all on wordpress.* to wordpress@'192.168.2.11' identified by 'wordpress';"
 cursor.execute(sql)
 sql = "flush privileges;"
 cursor.execute(sql)
