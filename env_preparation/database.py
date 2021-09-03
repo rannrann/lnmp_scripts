@@ -6,41 +6,11 @@ class database_config(config):
         super(database_config, self).__init__(passwd, ip_list)
 
 
-    def set_enable_for_service(self, addresses, command, script_path, check_func, words):
-        fail_ip = self.execute_script_for_many(addresses, command, script_path, check_func, words)
-        if fail_ip:
-            self.process_status = False
+
 
 
     def start(self):
-        print("-----------------------------Start ip checking-------------------------------")
-        self.ssh_con = self.ssh_con_creator()
-        self.con_status = [i.flag for i in self.ssh_con]
-        for i in self.con_status:
-            if not i:
-                print("\tplease check these ip")
-                return
-        else:
-            print("\tAll addresses are reachable")
-            for i in range(len(self.addresses)):
-                self.ip_con[self.addresses[i]] = self.ssh_con[i]
-
-        print("-----------------------------Start yum local repository checking-------------------------------")
-        command = 'yum clean all; yum repolist'
-        yum_fail_ip = self.check_it(self.addresses, command, yum_repolist_string)
-        for ip in yum_fail_ip:
-            print("\tset a yum repository on", ip)
-        words = "create the /etc/yum.repos.d/local.repo"
-        yum_fail_ip = self.execute_script_for_many(yum_fail_ip, command, self.local_repo_creator_path,
-                                                   yum_repolist_string, words)
-        try:
-            if yum_fail_ip:
-                raise SystemExit("\tPlease check these hosts")
-            else:
-                print("\tYum for all hosts is ready")
-        except Exception as e:
-            print('\t' + e)
-            return
+        self.start_ip_and_yum_checking()
 
         threads = []
         print("-----------------------------Start package installation-------------------------------")
@@ -73,12 +43,19 @@ class database_config(config):
             return
 
         print("-----------------------------start installing pymysql-------------------------------")
-        command = 'pip3 show pymysql'
-        for ip in self.addresses:
-            self.install_pymysql(ip, command, self.pymysql_installer_path, module_check)
-        if not self.process_status:
-            print("Pleace check these host")
-            return
+        command = 'yum provides python3'
+        fail_ip = self.check_it(self.addresses, command, python3_check)
+        if fail_ip:
+            command = 'pip3 show pymysql'
+            for ip in fail_ip:
+                self.install_pymysql(ip, command, self.pymysql_installer_path, module_check)
+            if not self.process_status:
+                print("Pleace check these host")
+                return
+        else:
+            for ip in self.addresses:
+                stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('yum -y install python3 &> /dev/null')
+                print('\t' + ip + ":" + stdout.read().decode() + " python3 is ready")
 
         print("-----------------------------start configing mariadb-------------------------------")
         command = "python3 " + self.path_head + self.mysql_env_check_on_database_path.split('/')[-1]

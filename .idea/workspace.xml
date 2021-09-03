@@ -20,13 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71baf598-07b1-47d5-9baa-b8d74c177b5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/env_preparation/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/lnmp_scripts.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lnmp_scripts.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/env_preparation/git.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/env_preparation/proxy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/maybe_blog/exec_command_mad.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/backup_packages.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/git_packages.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/git_service_enable.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/master_packages.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env_preparation/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/env_preparation/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/env_preparation/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/env_preparation/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/env_preparation/web.py" beforeDir="false" afterPath="$PROJECT_DIR$/env_preparation/web.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/config_mysql_on_web.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/config_mysql_on_web.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/idear.txt" beforeDir="false" afterPath="$PROJECT_DIR$/idear.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/other_tools/real_check.py" beforeDir="false" afterPath="$PROJECT_DIR$/other_tools/real_check.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/deploy_wordpress.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/deploy_wordpress.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +72,7 @@
       <recent name="G:\pycharm_projects\lnmp_scripts\scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.database">
+  <component name="RunManager" selected="Python.git">
     <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="lnmp_scripts" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -80,6 +87,50 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/env_preparation/database.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="git" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="lnmp_scripts" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/env_preparation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/env_preparation/git.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="proxy" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="lnmp_scripts" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/env_preparation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/env_preparation/proxy.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -112,8 +163,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.database" />
+        <item itemvalue="Python.git" />
         <item itemvalue="Python.web" />
+        <item itemvalue="Python.database" />
+        <item itemvalue="Python.proxy" />
       </list>
     </recent_temporary>
   </component>
@@ -127,7 +180,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1630592739514</updated>
-      <workItem from="1630637086572" duration="5902000" />
+      <workItem from="1630637086572" duration="20360000" />
     </task>
     <servers />
   </component>
@@ -146,29 +199,42 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1866" height="527" key="GridCell.Tab.0.bottom" timestamp="1630641777387">
+    <state width="1866" height="283" key="GridCell.Tab.0.bottom" timestamp="1630665440008">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1866" height="527" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
-    <state width="1866" height="527" key="GridCell.Tab.0.center" timestamp="1630641777387">
+    <state width="1866" height="283" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1630665440008" />
+    <state width="1866" height="283" key="GridCell.Tab.0.center" timestamp="1630665440008">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1866" height="527" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
-    <state width="1866" height="527" key="GridCell.Tab.0.left" timestamp="1630641777387">
+    <state width="1866" height="283" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1630665440008" />
+    <state width="1866" height="283" key="GridCell.Tab.0.left" timestamp="1630665440007">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1866" height="527" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
-    <state width="1866" height="527" key="GridCell.Tab.0.right" timestamp="1630641777387">
+    <state width="1866" height="283" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1630665440007" />
+    <state width="1866" height="283" key="GridCell.Tab.0.right" timestamp="1630665440008">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1866" height="527" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1630641777387" />
-    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1630640863169">
+    <state width="1866" height="283" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1630665440008" />
+    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1630665568065">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1630640863169" />
+    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1630665568065" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/other_tools/real_check.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/use_in_curriculum$database.coverage" NAME="database Coverage Results" MODIFIED="1630641777377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
-    <SUITE FILE_PATH="coverage/use_in_curriculum$web.coverage" NAME="web Coverage Results" MODIFIED="1630639922396" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
+    <SUITE FILE_PATH="coverage/use_in_curriculum$git.coverage" NAME="git Coverage Results" MODIFIED="1630665440002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
+    <SUITE FILE_PATH="coverage/use_in_curriculum$proxy.coverage" NAME="proxy Coverage Results" MODIFIED="1630658826116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
+    <SUITE FILE_PATH="coverage/use_in_curriculum$database.coverage" NAME="database Coverage Results" MODIFIED="1630665113676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
+    <SUITE FILE_PATH="coverage/use_in_curriculum$web.coverage" NAME="web Coverage Results" MODIFIED="1630665134147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/env_preparation" />
   </component>
 </project>

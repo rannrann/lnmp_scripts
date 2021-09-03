@@ -1,5 +1,6 @@
 from remote_host.ssh_connection import *
 from remote_host.sftp_document import *
+from other_tools.real_check import *
 class config:
     def __init__(self,passwd,ip_list):
         self.addresses = tuple(ip_list)
@@ -30,6 +31,10 @@ class config:
         self.web_service_enable_path = '../scripts/web_service_enable.sh'
         self.nginx_path = '/linux-soft/2/lnmp_soft/nginx-1.12.2.tar.gz'
         self.wordpress_path = '/linux-soft/2/lnmp_soft/wordpress.zip'
+        self.master_packages_path = '../scripts/master_packages.sh'
+        self.backup_packages_path = '../scripts/backup_packages.sh'
+        self.git_packages_path = '../scripts/git_packages.sh'
+        self.git_service_enable_path = '../scripts/git_service_enable.sh'
 
     def ssh_con_creator(self):
         return tuple([ssh_connection(self.passwd,i) for i in self.addresses])
@@ -46,6 +51,36 @@ class config:
             if not check_func(stdout.read().decode()):
                 fail_ip.append(self.addresses[i])
         return fail_ip
+
+    def start_ip_and_yum_checking(self):
+        print("-----------------------------Start ip checking-------------------------------")
+        self.ssh_con = self.ssh_con_creator()
+        self.con_status = [i.flag for i in self.ssh_con]
+        for i in self.con_status:
+            if not i:
+                print("\tplease check these ip")
+                return
+        else:
+            print("\tAll addresses are reachable")
+            for i in range(len(self.addresses)):
+                self.ip_con[self.addresses[i]] = self.ssh_con[i]
+
+        print("-----------------------------Start yum local repository checking-------------------------------")
+        command = 'yum clean all; yum repolist'
+        yum_fail_ip = self.check_it(self.addresses, command, yum_repolist_string)
+        for ip in yum_fail_ip:
+            print("\tset a yum repository on", ip)
+        words = "create the /etc/yum.repos.d/local.repo"
+        yum_fail_ip = self.execute_script_for_many(yum_fail_ip, command, self.local_repo_creator_path,
+                                                   yum_repolist_string, words)
+        try:
+            if yum_fail_ip:
+                raise SystemExit("\tPlease check these hosts")
+            else:
+                print("\tYum for all hosts is ready")
+        except Exception as e:
+            print('\t' + e)
+            return
 
     def execute_script_for_many(self, addresses, command, script_path, check_func, words):
         fail_ip = []
@@ -124,4 +159,9 @@ class config:
                 self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + file)
         else:
             print(" failed to config mariadb")
+            self.process_status = False
+
+    def set_enable_for_service(self, addresses, command, script_path, check_func, words):
+        fail_ip = self.execute_script_for_many(addresses, command, script_path, check_func, words)
+        if fail_ip:
             self.process_status = False

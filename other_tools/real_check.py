@@ -3,7 +3,7 @@ import re
 def yum_repolist_string(stdout):
     num = re.search(r'(repolist:)(.*)',stdout)
     num = num.group(2).replace(',','')
-    if int(num) == 9911:
+    if int(num) >= 9911:
         return True
     else:
         return False
@@ -52,6 +52,10 @@ def module_check(stdout):
 
 def mysql_check(stdout):
     resu = re.findall(r'True',stdout)
+    return True if resu else False
+
+def python3_check(stdout):
+    resu = re.findall(r'python3', stdout)
     return True if resu else False
 
 if __name__ == '__main__':

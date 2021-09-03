@@ -7,9 +7,51 @@ env_preparation:
          4 create nginx.service
          5 advise service configuration document
          6 start up php-fpm nginx, if ip is handover, start up php-fpm mariadb nginx
-            6.1 check port
+            6.1 systemctl status
          7 test if php pages are recognised by nginx
          8 config mariadb
             8.1 install python3
             8.2 install pymysql
          9 deploy wordpress
+
+    done
+
+    database:1 check ip
+             2 check yum repository
+                2.1 install packages
+             3 enable mariadb
+                3.1 systemctl status
+             8 config mariadb
+                8.1 install python3
+                8.2 install pymysql
+    done
+
+    proxy: 1 check ip
+           2 check yum repository
+              2.1 install packages keepalived,haproxy for every hosts
+              2.2 install packages bind bind-chroot for master
+    done
+
+    git: 1 check ip
+         2 check yum repository
+            2.1 install packages git git-daemon httpd gitweb
+         3 enable httpd
+    done
+
+    ceph: 1 check ip
+          2 check yum repository
+          3 check ceph repository
+          4 install packages ceph-mon ceph-osd ceph-mds for every hosts
+            4.1 install packages ceph-deploy for manager
+          5 scp hosts
+          6 config chrony.conf
+            6.1 systemctl restart chronyd
+            6.2 chronyc sources -v
+          8 deploy ceph cluster
+            8.1 ceph -s check
+          9 deploy ceph file system
+
+
+
+
+

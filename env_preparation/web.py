@@ -38,51 +38,36 @@ class web_config(config):
 
     #---------------------------------------------follow methods only for self.handover----------------------------------------------
     def install_python3(self, ip, command, script_path, check_func):
-        flag_num, filename = self.execute_script_for_one(ip, command, script_path, check_func)
-        if flag_num == 0:
-            print(" Python3 is ready")
-            self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + filename)
+        stdin,stdout,stderr = self.ip_con[ip].ssh_client.exec_command('yum provides python3')
+        if not python3_check(stdout.read().decode()):
+            flag_num, filename = self.execute_script_for_one(ip, command, script_path, check_func)
+            if flag_num == 0:
+                print(" Python3 is ready")
+                self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + filename)
+            else:
+                print(" failed to install python3")
+                self.process_status = False
         else:
-            print(" failed to install python3")
-            self.process_status = False
+            stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('yum -y install python3 &> /dev/null')
+            print('\t' + ip + ":"+ stdout.read().decode()+" python3 is ready")
 
     def deploy_wordpress(self, ip, command, file_path, script_path, check_func):
         filename = file_path.split('/')[-1]
         remote_path = self.path_head + filename
         sftp_document(ip, self.passwd, file_path, remote_path)
         flag, filename = self.execute_script_for_one(ip, command, script_path, check_func)
+        if flag:
+            print(" please access to", ip)
+            self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + filename)
+            self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + 'wordpress*')
+        else:
+            print(" failed to deploy wordpress")
+            self.process_status = False
     # ---------------------------------------------above methods only for self.handover----------------------------------------------
 
     def start(self):
-        print("-----------------------------Start ip checking-------------------------------")
-        self.ssh_con = self.ssh_con_creator()
-        self.con_status = [i.flag for i in self.ssh_con]
-        for i in self.con_status:
-            if not i:
-                print("\tplease check these ip")
-                return
-        else:
-            print("\tAll addresses are reachable")
-            for i in range(len(self.addresses)):
-                self.ip_con[self.addresses[i]] = self.ssh_con[i]
 
-
-        print("-----------------------------Start yum local repository checking-------------------------------")
-        command = 'yum clean all; yum repolist'
-        yum_fail_ip = self.check_it(self.addresses, command, yum_repolist_string)
-        for ip in yum_fail_ip:
-            print("\tset a yum repository on", ip)
-        words = "create the /etc/yum.repos.d/local.repo"
-        yum_fail_ip = self.execute_script_for_many(yum_fail_ip, command, self.local_repo_creator_path,
-                                                   yum_repolist_string, words)
-        try:
-            if yum_fail_ip:
-                raise SystemExit("\tPlease check these hosts")
-            else:
-                print("\tYum for all hosts is ready")
-        except Exception as e:
-            print('\t' + e)
-            return
+        self.start_ip_and_yum_checking()
 
         threads = []
         print("-----------------------------Start package installation-------------------------------")
@@ -199,25 +184,28 @@ class web_config(config):
             return
 
         print("-----------------------------start deploying wordpress-------------------------------")
-
+        command = 'ls /usr/local/nginx/html/'
+        self.deploy_wordpress(self.handover, command, self.wordpress_path, self.deploy_wordpress_path, ls_string)
+        if not self.process_status:
+            print("Pleace check these host")
+            return
 
         for con in self.ssh_con:
             con.close_ssh_client()
 
 
+
 if __name__ == '__main__':
     passwd = '123456'
-    ip = ['192.168.2.11','192.168.2.12'] #,'192.168.2.13'
+    ip = ['192.168.2.11','192.168.2.12','192.168.2.13'] #
     w = web_config(passwd,ip)
     w.start()
 
     # con = ssh_connection(passwd, ip[0])
-    # stdin, stdout, stderr = con.ssh_client.exec_command("python3 /root/mysql_env_check_on_handover.py")
-    # s = stdout.read().decode()
-    # ss = stderr.read().decode()
-    # print(mysql_check(s))
-    # print("stdout:",s)
-    # print("stderr:",ss)
+    # stdin, stdout, stderr = con.ssh_client.exec_command("yum provides python3")
+    # # print("stdout:", stdout.read().decode())
+    # resu = re.findall(r'python3',stdout.read().decode())
+    # print(True if resu else False)
     # con.close_ssh_client()
 
 
