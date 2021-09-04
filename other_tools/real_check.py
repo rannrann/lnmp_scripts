@@ -21,6 +21,7 @@ def nginx_check(stdout):
         return True
     else:
         return False
+
 def php_page_check(stdout):
     resu = re.findall(r'(test php)', stdout)
     return True if resu else False
@@ -57,6 +58,31 @@ def mysql_check(stdout):
 def python3_check(stdout):
     resu = re.findall(r'python3', stdout)
     return True if resu else False
+
+def ceph_check(stdout):
+    resu = re.findall(r'ceph-mon', stdout)
+    return True if resu else False
+
+def hosts_initial_check(stdout):
+    num = re.findall('\d+', stdout)
+    if int(num[0]) == 2:
+        return True
+    else:
+        return False
+
+def hosts_check(stdout):
+    num = re.findall('\d+', stdout)
+    if int(num[0]) > 2:
+        return True
+    else:
+        return False
+
+def chrony_check(stdout):
+    resu = re.findall(r'\^\*', stdout)
+    return True if resu else False
+
+def no_check(stdout):
+    return True
 
 if __name__ == '__main__':
     s='1a111111111a1111111111111111a111111111a'

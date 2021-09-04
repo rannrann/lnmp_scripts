@@ -35,6 +35,28 @@ class config:
         self.backup_packages_path = '../scripts/backup_packages.sh'
         self.git_packages_path = '../scripts/git_packages.sh'
         self.git_service_enable_path = '../scripts/git_service_enable.sh'
+        self.manager_packages_path = '../scripts/manager_packages.sh'
+        self.ceph_packages_path = '../scripts/ceph_packages.sh'
+        self.hosts_creator_path = '../scripts/hosts_creator.sh'
+        self.hosts_initialize_path = '../scripts/hosts_initialize.sh'
+        self.modify_chronyd_conf_on_ceph_path = '../scripts/modify_chronyd_conf_on_ceph.sh'
+        self.modify_chronyd_conf_on_manager_path = '../scripts/modify_chronyd_conf_on_manager.sh'
+
+    def initialize_scripts(self):
+        with open(self.config_mysql_on_web_path, 'r') as r:
+            content_lines = []
+            for line in r.readlines():
+                resu = re.findall(r'wordpress@\'\d+\.\d+\.\d+\.\d+\'', line)
+                if resu:
+                    content_lines.append(line.replace(resu[0], "wordpress@''"))
+                else:
+                    content_lines.append(line)
+            with open(self.config_mysql_on_web_path, 'w') as w:
+                for line in content_lines:
+                    w.write(line)
+        with open(self.hosts_creator_path,'w') as w:
+            w.write('#!/bin/bash\n')
+            w.write('echo "" >> /etc/hosts')
 
     def ssh_con_creator(self):
         return tuple([ssh_connection(self.passwd,i) for i in self.addresses])
@@ -165,3 +187,7 @@ class config:
         fail_ip = self.execute_script_for_many(addresses, command, script_path, check_func, words)
         if fail_ip:
             self.process_status = False
+
+if __name__ == '__main__':
+    w=config('1',[2])
+    w.initialize_scripts()

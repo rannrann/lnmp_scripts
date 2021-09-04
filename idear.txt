@@ -44,9 +44,11 @@ env_preparation:
           4 install packages ceph-mon ceph-osd ceph-mds for every hosts
             4.1 install packages ceph-deploy for manager
           5 scp hosts
+            5.1 hosts initialize
           6 config chrony.conf
             6.1 systemctl restart chronyd
             6.2 chronyc sources -v
+          7 ssh
           8 deploy ceph cluster
             8.1 ceph -s check
           9 deploy ceph file system

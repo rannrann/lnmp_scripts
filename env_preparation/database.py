@@ -35,20 +35,12 @@ class database_config(config):
             return
 
         print("-----------------------------start installing python3-------------------------------")
-        command = 'rpm -q python3'
-        for ip in self.addresses:
-            self.install_python3(ip, command, self.python_repo_creator_path, rpm_string)
-        if not self.process_status:
-            print("Pleace check these host")
-            return
-
-        print("-----------------------------start installing pymysql-------------------------------")
         command = 'yum provides python3'
         fail_ip = self.check_it(self.addresses, command, python3_check)
         if fail_ip:
-            command = 'pip3 show pymysql'
+            command = 'rpm -q python3'
             for ip in fail_ip:
-                self.install_pymysql(ip, command, self.pymysql_installer_path, module_check)
+                self.install_python3(ip, command, self.python_repo_creator_path, rpm_string)
             if not self.process_status:
                 print("Pleace check these host")
                 return
@@ -56,6 +48,15 @@ class database_config(config):
             for ip in self.addresses:
                 stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('yum -y install python3 &> /dev/null')
                 print('\t' + ip + ":" + stdout.read().decode() + " python3 is ready")
+
+
+        print("-----------------------------start installing pymysql-------------------------------")
+        command = 'pip3 show pymysql'
+        for ip in self.addresses:
+            self.install_pymysql(ip, command, self.pymysql_installer_path, module_check)
+        if not self.process_status:
+            print("Pleace check these host")
+            return
 
         print("-----------------------------start configing mariadb-------------------------------")
         command = "python3 " + self.path_head + self.mysql_env_check_on_database_path.split('/')[-1]

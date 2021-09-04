@@ -1,15 +1,15 @@
 #!/bin/bash
 echo "[mon]
 name=mon
-baseurl=file:///ceph/MON
+baseurl=ftp://192.168.2.254/ceph/MON
 gpgcheck=0
 [osd]
 name=osd
-baseurl=file:///ceph/OSD
+baseurl=ftp://192.168.2.254/ceph/OSD
 gpgcheck=0
 [tools]
 name=tools
-baseurl=file:///ceph/Tools
+baseurl=ftp://192.168.2.254/ceph/Tools
 gpgcheck=0" > /etc/yum.repos.d/ceph.repo
 yum clean all &> /dev/null
 yum repolist &> /dev/null

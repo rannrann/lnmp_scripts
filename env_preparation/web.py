@@ -168,15 +168,15 @@ class web_config(config):
         print("-----------------------------start configing mariadb-------------------------------")
         with open(self.config_mysql_on_web_path, 'r') as r:
             content_lines = []
-            for lines in r.readlines():
-                result = re.findall(r'wordpress@\'\'', lines)
+            for line in r.readlines():
+                result = re.findall(r'wordpress@\'\'', line)
                 if result:
-                    content_lines.append(lines.replace('\'\'', '\'' + self.handover + '\'', 1))
+                    content_lines.append(line.replace('\'\'', '\'' + self.handover + '\'', 1))
                 else:
-                    content_lines.append(lines)
+                    content_lines.append(line)
             with open(self.config_mysql_on_web_path, 'w') as w:
-                for lines in content_lines:
-                    w.write(lines)
+                for line in content_lines:
+                    w.write(line)
         command = "python3 " + self.path_head + self.mysql_env_check_on_handover_path.split('/')[-1]
         self.config_mariadb(self.handover, command, self.config_mysql_on_web_path, self.mysql_env_check_on_handover_path, mysql_check)
         if not self.process_status:
