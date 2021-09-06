@@ -10,6 +10,7 @@ class config:
         self.ip_con = {}
         self.process_status = True
         self.path_head = '/root/'
+        self.type = {'py':'python3 ', 'sh': 'bash ', 'exp': 'expect '}
         self.ceph_repo_creator_path = '../scripts/ceph_repo_creator.sh'
         self.config_mysql_on_database_path = '../scripts/config_mysql_on_database.py'
         self.config_mysql_on_web_path = '../scripts/config_mysql_on_web.py'
@@ -41,6 +42,9 @@ class config:
         self.hosts_initialize_path = '../scripts/hosts_initialize.sh'
         self.modify_chronyd_conf_on_ceph_path = '../scripts/modify_chronyd_conf_on_ceph.sh'
         self.modify_chronyd_conf_on_manager_path = '../scripts/modify_chronyd_conf_on_manager.sh'
+        self.autocopy_path = "../scripts/autocopy.exp"
+        self.deploy_ceph_mon_path = "../scripts/deploy_ceph_mon.sh"
+
 
     def initialize_scripts(self):
         with open(self.config_mysql_on_web_path, 'r') as r:

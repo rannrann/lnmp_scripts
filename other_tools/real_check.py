@@ -84,6 +84,11 @@ def chrony_check(stdout):
 def no_check(stdout):
     return True
 
+def mon_number(stdout):
+    result = re.findall(r'\d+ mons', stdout)
+    subresult = re.findall(r'\d+', result[0])
+    return int(subresult[0])
+
 if __name__ == '__main__':
     s='1a111111111a1111111111111111a111111111a'
     s2 = s.replace('a','s')
