@@ -317,3 +317,93 @@ end //
 
 delimiter ;
 call while_pro2(10);
+
+insert into nsd2021.departments(dept_name) values('sales5');
+insert into nsd2021.departments(dept_name) values('sales6');
+insert into nsd2021.departments(dept_name) values('sales3');
+insert into nsd2021.departments(dept_name) values('sales4');
+
+/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=1*/;
+/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;
+DELIMITER /*!*/;
+# at 4
+#210907 18:05:55 server id 11  end_log_pos 123 CRC32 0xfcacfa0f 	Start: binlog v 4, server v 5.7.17-log created 210907 18:05:55 at startup
+# Warning: this binlog is either in use or was not closed properly.
+ROLLBACK/*!*/;
+BINLOG '
+gzk3YQ8LAAAAdwAAAHsAAAABAAQANS43LjE3LWxvZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAACDOTdhEzgNAAgAEgAEBAQEEgAAXwAEGggAAAAICAgCAAAACgoKKioAEjQA
+AQ/6rPw=
+'/*!*/;
+# at 123
+#210907 18:05:55 server id 11  end_log_pos 154 CRC32 0x2239fd8a 	Previous-GTIDs
+# [empty]
+# at 154
+#210907 18:11:36 server id 11  end_log_pos 219 CRC32 0x1fb14b55 	Anonymous_GTID	last_committed=0	sequence_number=1
+SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
+# at 219
+#210907 18:11:36 server id 11  end_log_pos 296 CRC32 0x24c920e9 	Query	thread_id=3	exec_time=0	error_code=0
+SET TIMESTAMP=1631009496/*!*/;
+SET @@session.pseudo_thread_id=3/*!*/;
+SET @@session.foreign_key_checks=1, @@session.sql_auto_is_null=0, @@session.unique_checks=1, @@session.autocommit=1/*!*/;
+SET @@session.sql_mode=1436549152/*!*/;
+SET @@session.auto_increment_increment=1, @@session.auto_increment_offset=1/*!*/;
+/*!\C utf8 *//*!*/;
+SET @@session.character_set_client=33,@@session.collation_connection=33,@@session.collation_server=8/*!*/;
+SET @@session.lc_time_names=0/*!*/;
+SET @@session.collation_database=DEFAULT/*!*/;
+BEGIN
+/*!*/;
+# at 296
+# at 328
+#210907 18:11:36 server id 11  end_log_pos 328 CRC32 0xb5e1f910 	Intvar
+SET INSERT_ID=21/*!*/;
+#210907 18:11:36 server id 11  end_log_pos 459 CRC32 0xe2d95460 	Query	thread_id=3	exec_time=0	error_code=0
+use `nsd2021`/*!*/;
+SET TIMESTAMP=1631009496/*!*/;
+insert into nsd2021.departments(dept_name) values('sales5')
+/*!*/;
+# at 459
+#210907 18:11:36 server id 11  end_log_pos 490 CRC32 0x859a0a78 	Xid = 16
+COMMIT/*!*/;
+# at 490
+#210907 18:11:37 server id 11  end_log_pos 555 CRC32 0x93eac0cf 	Anonymous_GTID	last_committed=1	sequence_number=2
+SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
+# at 555
+#210907 18:11:37 server id 11  end_log_pos 632 CRC32 0x1f7de223 	Query	thread_id=3	exec_time=0	error_code=0
+SET TIMESTAMP=1631009497/*!*/;
+BEGIN
+/*!*/;
+# at 632
+# at 664
+#210907 18:11:37 server id 11  end_log_pos 664 CRC32 0x86a432bc 	Intvar
+SET INSERT_ID=22/*!*/;
+#210907 18:11:37 server id 11  end_log_pos 795 CRC32 0xcbc5e2fe 	Query	thread_id=3	exec_time=0	error_code=0
+SET TIMESTAMP=1631009497/*!*/;
+insert into nsd2021.departments(dept_name) values('sales6')
+/*!*/;
+# at 795
+#210907 18:11:37 server id 11  end_log_pos 826 CRC32 0xe3988093 	Xid = 17
+COMMIT/*!*/;
+# at 826
+#210907 18:16:18 server id 11  end_log_pos 891 CRC32 0xb3d312d0 	Anonymous_GTID	last_committed=2	sequence_number=3
+SET @@SESSION.GTID_NEXT= 'ANONYMOUS'/*!*/;
+# at 891
+#210907 18:16:18 server id 11  end_log_pos 961 CRC32 0xef3184ed 	Query	thread_id=4	exec_time=0	error_code=0
+SET TIMESTAMP=1631009778/*!*/;
+BEGIN
+/*!*/;
+# at 961
+#210907 18:16:18 server id 11  end_log_pos 1087 CRC32 0x0ac105f8 	Query	thread_id=4	exec_time=0	error_code=0
+SET TIMESTAMP=1631009778/*!*/;
+delete from nsd2021.departments
+where dept_name like 'sales_'
+/*!*/;
+# at 1087
+#210907 18:16:18 server id 11  end_log_pos 1118 CRC32 0x699883e9 	Xid = 20
+COMMIT/*!*/;
+SET @@SESSION.GTID_NEXT= 'AUTOMATIC' /* added by mysqlbinlog */ /*!*/;
+DELIMITER ;
+# End of log file
+/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
+/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;

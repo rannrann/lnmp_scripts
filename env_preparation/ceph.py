@@ -7,6 +7,26 @@ class ceph_config(config):
         super(ceph_config, self).__init__(passwd, ip_list)
         self.manager = self.addresses[0]
         self.hostnames = None
+        self.ip_disk = {}
+    def get_disk(self, ip):
+        stdin, stdout, stderr =  self.ip_con[ip].ssh_client.exec_command("lsblk")
+        lines = stdout.read().decode().split('\n')
+        three_chars = []
+        for i in range(1,len(lines)):
+            three_chars.append(lines[i][:4].strip())
+        disks = []
+        for line in three_chars:
+            if line.isalpha():
+                disks.append(line)
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command("blkid")
+        lines = stdout.read().decode().split('\n')
+        del lines[-1]
+        parted_disk = []
+        for line in lines:
+            parted_disk.append(line[5:8])
+        s1 = set(disks)
+        s2 = set(parted_disk)
+        self.ip_disk[ip] = s1-s2
 
     def execute_script_for_ceph(self, ip, command, script_path, check_func, pos_variadlb):
         filename = script_path.split('/')[-1]
@@ -167,6 +187,27 @@ class ceph_config(config):
             print(" failed to deploy ceph-mon. Please check")
             return
 
+        print("-----------------------------Start deploying ceph osd-------------------------------")
+        for ip in self.addresses:
+            self.get_disk(ip)
+        if self.ip_disk:
+            print("\tDisks for all hosts are ready")
+        else:
+            print("\tDisks for all hosts aren't ready")
+            return
+
+        for ip, disks in self.ip_disk.items():
+            print("ceph-deploy disk zap ",end='')
+            for disk in disks:
+                print(ip+":"+disk+" ", end='')
+            print()
+
+        for ip, disks in self.ip_disk.items():
+            print("ceph-deploy osd create ",end='')
+            for disk in disks:
+                print(ip+":"+disk+" ", end='')
+            print()
+
         for con in self.ssh_con:
             con.close_ssh_client()
 
@@ -176,14 +217,30 @@ if __name__ == '__main__':
     ip = ['192.168.2.41', '192.168.2.42', '192.168.2.43']
     c = ceph_config(passwd, ip)
     c.start()
-    # con = ssh_connection(passwd, ip[1])
-    # stdin, stdout, stderr = con.ssh_client.exec_command("ceph -s")
-    # result = re.findall(r'\d+ mons',stdout.read().decode())
-    # subresult = re.findall(r'\d+',result[0])
-    # print(int(subresult[0]))
-    # print("stdout:",stdout.read().decode())
-    # print("stderr:", stderr.read().decode())
+    # con = ssh_connection(passwd, ip[0])
+    # stdin, stdout, stderr = con.ssh_client.exec_command("lsblk")
+    # list = []
+    # resu = stdout.read().decode().split('\n')
+    # print(resu)
+    # for i in range(1, len(resu)):
+    #     list.append(resu[i][:4].strip())
+    # list2=[]
+    # list3=[]
+    # for str in list:
+    #     if str.isalpha():
+    #         list2.append(str)
+    # print(list2)
+    # stdin, stdout, stderr = con.ssh_client.exec_command("blkid")
+    # resu2 = stdout.read().decode().split('\n')
+    # del resu2[-1]
+    # print(resu2)
+    # for i in resu2:
+    #     list3.append(i[5:8])
+    # print(list3)
     # con.close_ssh_client()
+    # s1 = set(list2)
+    # s2 = set(list3)
+    # print(s1-s2)
 
     # dict={"1111":"one","2222":"two"}
     # s = [i+ j +"\n" for i, j in dict.items()]
