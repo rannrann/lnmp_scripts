@@ -6,5 +6,6 @@ deploy_ceph_mon(){
   ceph-deploy new $* &> /dev/null
   ceph-deploy mon create-initial &> /dev/null
 }
+awk 'END{printf " "}' /etc/issue / >> /root/deploy_ceph_mon.sh
 awk '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/NR>1' /etc/hosts | awk 'NR>1' | awk '{printf $2" "}' >> /root/deploy_ceph_mon.sh
 deploy_ceph_mon

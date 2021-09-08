@@ -73,12 +73,12 @@ class web_config(config):
         print("-----------------------------Start package installation-------------------------------")
         for ip in self.addresses:
             if ip == self.handover:
-                command = 'rpm -q gcc openssl-devel pcre-devel mariadb mariadb-server mariadb-devel php php-mysql php-fpm unzip'
+                command = 'rpm -q gcc openssl-devel pcre-devel mariadb mariadb-server mariadb-devel php php-mysql php-fpm unzip ceph-common'
                 # pit = packages_installation_Thread(self, self.lock,ip,command,self.handover_packages_path,rpm_string)
                 th = threading.Thread(target=self.packages_installation,
                                       args=(ip, command, self.handover_packages_path, rpm_string,))
             else:
-                command = 'rpm -q gcc openssl-devel pcre-devel mariadb-devel php php-mysql php-fpm'
+                command = 'rpm -q gcc openssl-devel pcre-devel mariadb-devel php php-mysql php-fpm ceph-common'
                 # 不要想着在线程里面创建自己的线程对象，会报错
                 # pit = packages_installation_Thread(self, self.lock, ip, command, self.web_packages_path, rpm_string)
                 # 可以再线程中再生成一个线程对象，加快代码执行速度

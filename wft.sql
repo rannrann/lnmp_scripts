@@ -407,3 +407,11 @@ DELIMITER ;
 # End of log file
 /*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
 /*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
+
+
+change master to
+master_host="192.168.1.14",
+master_user="repluser",
+master_password="NSD2021@tedu.cn",
+master_log_file="master14.000001",
+master_log_pos=173421;

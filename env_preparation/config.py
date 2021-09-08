@@ -44,6 +44,7 @@ class config:
         self.modify_chronyd_conf_on_manager_path = '../scripts/modify_chronyd_conf_on_manager.sh'
         self.autocopy_path = "../scripts/autocopy.exp"
         self.deploy_ceph_mon_path = "../scripts/deploy_ceph_mon.sh"
+        self.deploy_ceph_osd_path = "../scripts/deploy_ceph_osd.sh"
 
 
     def initialize_scripts(self):

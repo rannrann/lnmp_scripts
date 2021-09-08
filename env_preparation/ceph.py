@@ -28,14 +28,14 @@ class ceph_config(config):
         s2 = set(parted_disk)
         self.ip_disk[ip] = s1-s2
 
-    def execute_script_for_ceph(self, ip, command, script_path, check_func, pos_variadlb):
+    def execute_script_and_waitting(self, ip, command, script_path, check_func, pos_variadlb, wait_seconds):
         filename = script_path.split('/')[-1]
         remote_path = self.path_head + filename
         sftp_document(ip, self.passwd, script_path, remote_path)
         # 必须要有stdin, stdout, stderr= …… 而且必须要调用参数，因为如果只是单纯执行脚本，real_check.py的函数会先执行
         stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command("bash " + remote_path + " "+ pos_variadlb)
         print('\t' + ip + ":", stdout.read().decode(), end='')
-        time.sleep(10)
+        time.sleep(wait_seconds)
         stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command(command)
         flag_value = check_func(stdout.read().decode())
         return flag_value, filename
@@ -51,8 +51,8 @@ class ceph_config(config):
         return filename
 
 
-    def set_chrony(self, ip, command, script_path, check_func, pos_variadlb):
-        flag, filename = self.execute_script_for_ceph(ip, command, script_path, check_func, pos_variadlb)
+    def set_chrony(self, ip, command, script_path, check_func, pos_variadlb, wait_seconds):
+        flag, filename = self.execute_script_and_waitting(ip, command, script_path, check_func, pos_variadlb, wait_seconds)
         if flag:
             print(" chrony is ready")
             self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + filename)
@@ -147,17 +147,18 @@ class ceph_config(config):
 
         print("-----------------------------Start modifying /etc/chrond.conf-------------------------------")
         threads = []
+        wait_seconds = 10
         for ip in self.addresses:
             if ip == self.manager:
                 command = 'echo nothing &> /dev/null'
                 pos_variadlb = self.manager.split('.')[-2]
                 th = threading.Thread(target=self.set_chrony,
-                                      args=(ip, command, self.modify_chronyd_conf_on_manager_path, no_check,pos_variadlb,))
+                                      args=(ip, command, self.modify_chronyd_conf_on_manager_path, no_check, pos_variadlb, wait_seconds,))
             else:
                 command = 'chronyc sources -v'
                 pos_variadlb = self.manager
                 th = threading.Thread(target=self.set_chrony,
-                                      args=(ip, command, self.modify_chronyd_conf_on_ceph_path, chrony_check,pos_variadlb,))
+                                      args=(ip, command, self.modify_chronyd_conf_on_ceph_path, chrony_check, pos_variadlb, wait_seconds,))
             threads.append(th)
         for t in threads:
             t.start()
@@ -170,7 +171,7 @@ class ceph_config(config):
         print("-----------------------------Start creating secret key on manager and send it to other hosts-------------------------------")
         stdin, stdout, stderr = self.ip_con[self.manager].ssh_client.exec_command("rm -rf /root/.ssh/id_rsa; ssh-keygen -f /root/.ssh/id_rsa -N '' &> /dev/null")
         print('\t' + self.manager + ":", stdout.read().decode(), "created a secrete key")
-        for i in range(1, len(self.addresses)):
+        for i in range(len(self.addresses)):
             stdin, stdout, stderr = self.ip_con[self.addresses[i]].ssh_client.exec_command("rm -rf /root/.ssh/authorized_keys")
             print('\t' + self.addresses[i] + ":", stdout.read().decode(),end='')
             filename = self.expect_script_with_pos_variable(self.manager, self.autocopy_path, [self.addresses[i], self.passwd])
@@ -188,6 +189,7 @@ class ceph_config(config):
             return
 
         print("-----------------------------Start deploying ceph osd-------------------------------")
+        lines=['#!/bin/bash\n','cd /root/ceph_cluster\n']
         for ip in self.addresses:
             self.get_disk(ip)
         if self.ip_disk:
@@ -196,17 +198,46 @@ class ceph_config(config):
             print("\tDisks for all hosts aren't ready")
             return
 
-        for ip, disks in self.ip_disk.items():
-            print("ceph-deploy disk zap ",end='')
-            for disk in disks:
-                print(ip+":"+disk+" ", end='')
-            print()
 
         for ip, disks in self.ip_disk.items():
-            print("ceph-deploy osd create ",end='')
+            line = []
+            line.append('ceph-deploy disk zap ')
             for disk in disks:
-                print(ip+":"+disk+" ", end='')
-            print()
+                line.append(ip+":"+disk+" ")
+            line.append('\n')
+            lines.append(''.join(line))
+
+        for ip, disks in self.ip_disk.items():
+            line = []
+            line.append("ceph-deploy osd create ")
+            for disk in disks:
+                line.append(ip+":"+disk+" ")
+            line.append('\n')
+            lines.append(''.join(line))
+
+        with open(self.deploy_ceph_osd_path,'w') as w:
+            for line in lines:
+                w.write(line)
+
+        command = 'cd /root/ceph_cluster; ceph -s'
+        flag, filename = self.execute_script_and_waitting(self.manager, command, self.deploy_ceph_osd_path, osd_check, '', len(self.addresses)*25)
+        if flag:
+            print(" ceph-osd for all host is ready")
+            self.ip_con[ip].ssh_client.exec_command('rm -rf ' + self.path_head + filename)
+        else:
+            print(" failed to deploy ceph-osd")
+            return
+
+        print("-----------------------------Start deploying file system-------------------------------")
+        stdin, stdout, stderr = self.ip_con[self.manager].ssh_client.exec_command('cd /root/ceph_cluster; ceph-deploy mds create '+ self.addresses[-1] + ' < /dev/null')
+        print('\t'+ip+':'+stdout.read().decode(), end='')
+        command = "systemctl status ceph-mds@"+self.addresses[-1]
+        stdin, stdout, stderr = self.ip_con[self.addresses[-1]].ssh_client.exec_command(command)
+        if services_check(stdout.read().decode()):
+            print(" ceph-mds is ready")
+        else:
+            print(" failed to start ceph-mds service")
+            return
 
         for con in self.ssh_con:
             con.close_ssh_client()
@@ -217,35 +248,14 @@ if __name__ == '__main__':
     ip = ['192.168.2.41', '192.168.2.42', '192.168.2.43']
     c = ceph_config(passwd, ip)
     c.start()
-    # con = ssh_connection(passwd, ip[0])
-    # stdin, stdout, stderr = con.ssh_client.exec_command("lsblk")
-    # list = []
-    # resu = stdout.read().decode().split('\n')
-    # print(resu)
-    # for i in range(1, len(resu)):
-    #     list.append(resu[i][:4].strip())
-    # list2=[]
-    # list3=[]
-    # for str in list:
-    #     if str.isalpha():
-    #         list2.append(str)
-    # print(list2)
-    # stdin, stdout, stderr = con.ssh_client.exec_command("blkid")
-    # resu2 = stdout.read().decode().split('\n')
-    # del resu2[-1]
-    # print(resu2)
-    # for i in resu2:
-    #     list3.append(i[5:8])
-    # print(list3)
+    # con = ssh_connection(passwd, ip[-1])
+    # stdin, stdout, stderr = con.ssh_client.exec_command("systemctl status ceph-mds@192.168.2.43")
+    # print(services_check(stdout.read().decode()))
     # con.close_ssh_client()
-    # s1 = set(list2)
-    # s2 = set(list3)
-    # print(s1-s2)
 
-    # dict={"1111":"one","2222":"two"}
-    # s = [i+ j +"\n" for i, j in dict.items()]
-    # s2=''.join(s)
-    # print(s2)
+
+    # a=['1','2','3']
+    # print(str(a))
 
 
 

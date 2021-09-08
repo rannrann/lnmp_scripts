@@ -53,7 +53,17 @@ env_preparation:
             8.1 ceph -s check
           9 deploy ceph file system
 
+After user complete the wordpress configuration, do the operations as follow:
 
+operaton:1 stop nginx service for web hosts
+         2 stop mariadb service for handover
+         3 export data from wordpress database and scp to database host
+         4 modify the content specifies database host in the wordpress config file, which is a php file
+         5 put the all php pages into a tar document, and than move out of /usr/local/nginx/html
+         6 get the ceph key from any host of ceph hosts
+         7 mount file system for all web hosts
+         8 handover move the tar package back to /usr/local/nginx/html and then untar it
+         9
 
 
 

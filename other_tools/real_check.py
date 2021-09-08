@@ -89,6 +89,10 @@ def mon_number(stdout):
     subresult = re.findall(r'\d+', result[0])
     return int(subresult[0])
 
+def osd_check(stdout):
+    resu = re.findall(r'HEALTH_OK', stdout)
+    return True if resu else False
+
 if __name__ == '__main__':
     s='1a111111111a1111111111111111a111111111a'
     s2 = s.replace('a','s')
