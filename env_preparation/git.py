@@ -29,6 +29,10 @@ class git_config(config):
             print("Pleace check these host")
             return
 
+        for con in self.ssh_con:
+            con.close_ssh_client()
+        print("gitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgit")
+
 if __name__ == '__main__':
     passwd = '123456'
     ip = ['192.168.2.21']  # ,'192.168.2.13'

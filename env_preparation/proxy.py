@@ -34,6 +34,11 @@ class proxy_config(config):
             print("Pleace check these host")
             return
 
+        for con in self.ssh_con:
+            con.close_ssh_client()
+
+        print("proxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxy")
+
 if __name__ == '__main__':
     passwd = '123456'
     ip = ['192.168.4.5', '192.168.4.6']

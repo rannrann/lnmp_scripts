@@ -410,8 +410,8 @@ DELIMITER ;
 
 
 change master to
-master_host="192.168.1.14",
+master_host="192.168.1.17",
 master_user="repluser",
 master_password="NSD2021@tedu.cn",
-master_log_file="master14.000001",
-master_log_pos=173421;
+master_log_file="master17.000001",
+master_log_pos=441;

@@ -70,6 +70,8 @@ class database_config(config):
         for con in self.ssh_con:
             con.close_ssh_client()
 
+        print("databasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabase")
+
 if __name__ == '__main__':
     passwd = '123456'
     ip = ['192.168.2.21']  # ,'192.168.2.13'

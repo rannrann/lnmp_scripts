@@ -48,6 +48,27 @@ def services_check(stdout):
             return False
     return True
 
+def stoped_services_check(stdout):
+    services_status = []
+    s = stdout
+    while s.find('Active') != -1:
+        index = s.find('Active')
+        substr = s[index:index + 17]
+        subsubstr = re.search(r'(Active:)(.*)', substr)
+        if subsubstr:
+            status = re.findall(r'\sactive', subsubstr.group(2))
+            if status:
+                services_status.append(True)
+            else:
+                services_status.append(False)
+        else:
+            return False
+        s = s.replace(substr, '',1)
+    for status in services_status:
+        if status:
+            return False
+    return True
+
 def module_check(stdout):
     return True if stdout else False
 
@@ -59,7 +80,7 @@ def python3_check(stdout):
     resu = re.findall(r'python3', stdout)
     return True if resu else False
 
-def ceph_check(stdout):
+def ceph_mon_check(stdout):
     resu = re.findall(r'ceph-mon', stdout)
     return True if resu else False
 
@@ -91,6 +112,10 @@ def mon_number(stdout):
 
 def osd_check(stdout):
     resu = re.findall(r'HEALTH_OK', stdout)
+    return True if resu else False
+
+def ceph_fs_check(stdout):
+    resu = re.findall(r'name', stdout)
     return True if resu else False
 
 if __name__ == '__main__':

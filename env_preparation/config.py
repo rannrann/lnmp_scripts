@@ -45,7 +45,9 @@ class config:
         self.autocopy_path = "../scripts/autocopy.exp"
         self.deploy_ceph_mon_path = "../scripts/deploy_ceph_mon.sh"
         self.deploy_ceph_osd_path = "../scripts/deploy_ceph_osd.sh"
-
+        self.ceph_file_system_creator_path = "../scripts/ceph_file_system_creator.sh"
+        self.stop_handover_services_path = "../scripts/stop_handover_services.sh"
+        self.stop_web_services_path = "../scripts/stop_web_services.sh"
 
     def initialize_scripts(self):
         with open(self.config_mysql_on_web_path, 'r') as r:

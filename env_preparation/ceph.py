@@ -64,10 +64,10 @@ class ceph_config(config):
         self.start_ip_and_yum_checking()
         print("-----------------------------Start yum ceph repository checking-------------------------------")
         command = 'yum provides ceph-mon'
-        fail_ip = self.check_it(self.addresses, command, ceph_check)
+        fail_ip = self.check_it(self.addresses, command, ceph_mon_check)
         words = "create the /etc/yum.repos.d/ceph.repo"
         ceph_fail_ip = self.execute_script_for_many(fail_ip, command, self.ceph_repo_creator_path,
-                                                    ceph_check, words)
+                                                    ceph_mon_check, words)
         try:
             if ceph_fail_ip:
                 raise SystemExit("\tPlease check these hosts")
@@ -239,8 +239,19 @@ class ceph_config(config):
             print(" failed to start ceph-mds service")
             return
 
+        print("-----------------------------Start creating ceph file system-------------------------------")
+        command = 'cd /root/ceph_cluster; ceph fs ls'
+        flag, filename = self.execute_script_for_one(self.manager, command, self.ceph_file_system_creator_path, ceph_fs_check)
+        if flag:
+            print(" file system is ready")
+            self.ip_con[self.manager].ssh_client.exec_command('rm -rf ' + self.path_head + filename)
+        else:
+            print(" failed to create a file system")
+            return
+
         for con in self.ssh_con:
             con.close_ssh_client()
+        print("cephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephceph")
 
 
 if __name__ == '__main__':

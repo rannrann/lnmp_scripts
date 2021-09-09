@@ -55,15 +55,26 @@ env_preparation:
 
 After user complete the wordpress configuration, do the operations as follow:
 
-operaton:1 stop nginx service for web hosts
+operaton:1 stop nginx，php-fpm service for web hosts
+            1.1 check services
          2 stop mariadb service for handover
-         3 export data from wordpress database and scp to database host
+            2.1 check services
+         above 1
+         3 export data from wordpress database on handover , scp to database host to which exported database will be imported
+            3.1 python check
+         above 2
          4 modify the content specifies database host in the wordpress config file, which is a php file
+            4.1 no check
          5 put the all php pages into a tar document, and than move out of /usr/local/nginx/html
+            5.1 no check
          6 get the ceph key from any host of ceph hosts
+            6.1 no check
          7 mount file system for all web hosts
+            7.1 mount -a
          8 handover move the tar package back to /usr/local/nginx/html and then untar it
-         9
+            8.2 curl
+         9 set dns keepalived haproxy
+
 
 
 
