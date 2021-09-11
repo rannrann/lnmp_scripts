@@ -415,3 +415,80 @@ master_user="repluser",
 master_password="NSD2021@tedu.cn",
 master_log_file="master17.000001",
 master_log_pos=441;
+
+create table employee(
+    id int primary key auto_increment,
+    sharding_id int,
+    name varchar(20),
+    birth_date date
+);
+
+insert into employee(id, sharding_id, name, birth_date) values
+(1, 10000, 'tom', '2000-01-03'),
+(2, 10000, 'jerry', '1999-02-04'),
+(3, 10010, 'bob', '1999-02-04'),
+(4, 10010, 'alice', '1999-02-04'),
+(5, 10020, 'jack', '1999-02-04'),
+(6, 10020, 'rose', '1999-02-04');
+
+
+create table hotnews(
+    id int primary key,
+    title varchar(50),
+    content text
+);
+
+insert into hotnews(id, title, content) values
+(1, "六一快乐", "六一不休息表演节目"),
+(2, "中秋快乐", "中秋放假三天"),
+(3, "国庆快乐", "国庆放假七天");
+
+insert into hotnews(id, title, content) values
+(4, "害", "啥时候能过去");
+
+create table goods(
+    id int primary key,
+    name varchar(10)
+);
+
+insert into goods(id, name) values
+(1, '奶茶'),(2, '花生'),(3, '瓜子'),(4, '矿泉水');
+
+create database nsd2021 default charset utf8mb4;
+
+create table departments(
+    dept_id int primary key,
+    dept_name varchar(10)
+);
+
+insert into departments(dept_id, dept_name) values
+(1, '开发部'),(2, '养老部'),(3, '咕咕部'),(4, 'whatever部');
+
+create table employees(
+    employee_id int primary key,
+    name varchar(10),
+    dept_id int,
+    sharding_id int,
+    foreign key (dept_id) references departments(dept_id)
+);
+insert into employees(employee_id, name, dept_id, sharding_id) values
+(1, 'aummy', 1, 10030),
+(2, 'bummy', 2, 10040),
+(3, 'cummy', 3, 10050),
+(4, 'dummy', 4, 10030),
+(5, 'eummy', 2, 10040),
+(6, 'fummy', 3, 10050);
+
+create table salary(
+    salary_id int primary key,
+    employee_id int,
+    basic int,
+    data DATE,
+    foreign key (employee_id) references employees(employee_id)
+);
+insert into departments(salary_id, employee_id, basic, data) values
+(1, 1, 3000, '2000-01-03'),
+(2, 2, 4000, '2000-01-03'),
+(3, 3, 5000, '2000-01-03'),
+(4, 4, 6000, '2000-01-03');
+

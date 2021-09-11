@@ -5,6 +5,7 @@ class git_config(config):
     def __init__(self, passwd, ip_list):
         super(git_config, self).__init__(passwd, ip_list)
     def start(self):
+        self.print_info('Start Git Config')
         self.start_ip_and_yum_checking()
 
         threads = []
@@ -29,10 +30,8 @@ class git_config(config):
             print("Pleace check these host")
             return
 
-        for con in self.ssh_con:
-            con.close_ssh_client()
-        print("gitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgitgit")
-
+        # self.close_ssh_con()
+        self.print_info('Git Config finished')
 if __name__ == '__main__':
     passwd = '123456'
     ip = ['192.168.2.21']  # ,'192.168.2.13'

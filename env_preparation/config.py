@@ -10,7 +10,7 @@ class config:
         self.ip_con = {}
         self.process_status = True
         self.path_head = '/root/'
-        self.type = {'py':'python3 ', 'sh': 'bash ', 'exp': 'expect '}
+        self.type_interpreter = {'py': 'python3 ', 'sh': 'bash ', 'exp': 'expect '}
         self.ceph_repo_creator_path = '../scripts/ceph_repo_creator.sh'
         self.config_mysql_on_database_path = '../scripts/config_mysql_on_database.py'
         self.config_mysql_on_web_path = '../scripts/config_mysql_on_web.py'
@@ -46,8 +46,17 @@ class config:
         self.deploy_ceph_mon_path = "../scripts/deploy_ceph_mon.sh"
         self.deploy_ceph_osd_path = "../scripts/deploy_ceph_osd.sh"
         self.ceph_file_system_creator_path = "../scripts/ceph_file_system_creator.sh"
-        self.stop_handover_services_path = "../scripts/stop_handover_services.sh"
         self.stop_web_services_path = "../scripts/stop_web_services.sh"
+        self.export_database_path = "../scripts/export_database.sh"
+        self.autoscp_path = "../scripts/autoscp.exp"
+        self.stop_mariadb_service_path = "../scripts/stop_mariadb_service.sh"
+        self.import_data_path = "../scripts/import_data.sh"
+        self.mysql_check_on_database_path = "../scripts/mysql_check_on_database.sh"
+        self.mysql_check_on_handover2_path = "../scripts/mysql_check_on_handover2.sh"
+        self.modify_wordpress_conf_path = "../scripts/modify_wordpress_conf.sh"
+        self.pack_pages_path = "../scripts/pack_pages.sh"
+        self.mount_ceph_path = "../scripts/mount_ceph.sh"
+        self.unpack_pages_path = "../scripts/unpack_pages.sh"
 
     def initialize_scripts(self):
         with open(self.config_mysql_on_web_path, 'r') as r:
@@ -73,13 +82,24 @@ class config:
         remote_path = self.path_head + filename
         sftp_document(ip, self.passwd, local_path, remote_path)
 
-    def check_it(self, addresses, command, check_func):
+    def check_all(self, addresses, command, check_func):
         fail_ip = []
         for i in range(len(addresses)):
             stdin, stdout, stderr = self.ssh_con[i].ssh_client.exec_command(command)
             if not check_func(stdout.read().decode()):
                 fail_ip.append(self.addresses[i])
         return fail_ip
+
+    def check_it(self, ip, script_path, check_func, variable_list=None):
+        filename = script_path.split('/')[-1]
+        remote_path = self.path_head + filename
+        sftp_document(ip, self.passwd, script_path, remote_path)
+        variable = ' '.join(variable_list) if variable_list else ''
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('bash ' + self.path_head + filename +" "+ variable)
+        flag = check_func(stdout.read().decode())
+        print('\t'+ip+":", end='')
+        return flag, filename
+
 
     def start_ip_and_yum_checking(self):
         print("-----------------------------Start ip checking-------------------------------")
@@ -96,7 +116,7 @@ class config:
 
         print("-----------------------------Start yum local repository checking-------------------------------")
         command = 'yum clean all; yum repolist'
-        yum_fail_ip = self.check_it(self.addresses, command, yum_repolist_string)
+        yum_fail_ip = self.check_all(self.addresses, command, yum_repolist_string)
         for ip in yum_fail_ip:
             print("\tset a yum repository on", ip)
         words = "create the /etc/yum.repos.d/local.repo"
@@ -128,25 +148,27 @@ class config:
                 self.ip_con[ip].ssh_client.exec_command("rm -rf " + remote_path)
         return fail_ip
 
-    def execute_script_for_one(self, ip, command, script_path, check_func):
+    def execute_script_for_one(self, ip, command, script_path, check_func, variadle_list=None):
         filename = script_path.split('/')[-1]
         remote_path = self.path_head + filename
         sftp_document(ip, self.passwd, script_path, remote_path)
+        variadle = ' '.join(variadle_list) if variadle_list else ''
         # 必须要有stdin, stdout, stderr= …… 而且必须要调用参数，因为如果只是单纯执行脚本，real_check.py的函数会先执行
-        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command("bash " + remote_path)
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command("bash " + remote_path + " " + variadle)
         print('\t' + ip + ":", stdout.read().decode(), end='')
         stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command(command)
         flag_value = check_func(stdout.read().decode())
         return flag_value, filename
 
-    def execute_py_script_for_one(self, ip, command, script_path, check_script_path, check_func):
+    def execute_two_scripts_for_one(self, ip, command, script_path, check_script_path, check_func):
         filename = []
         filename.append(script_path.split('/')[-1])
         filename.append(check_script_path.split('/')[-1])
+        type = script_path.split('.')[-1]
         remote_path = self.path_head + filename[0]
         remote_path2 = self.path_head + filename[1]
         sftp_document(ip, self.passwd, script_path, remote_path)
-        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command("python3 " + remote_path)
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command(self.type_interpreter[type] + remote_path)
         print('\t' + ip + ":", stdout.read().decode(), end='')
         sftp_document(ip, self.passwd, check_script_path, remote_path2)
         stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command(command)
@@ -181,7 +203,7 @@ class config:
             self.process_status = False
 
     def config_mariadb(self, ip, command, script_path, check_script_path, check_func):
-        flag, files = self.execute_py_script_for_one(ip, command, script_path, check_script_path, check_func)
+        flag, files = self.execute_two_scripts_for_one(ip, command, script_path, check_script_path, check_func)
         if flag:
             print(" mariadb is ready")
             for file in files:
@@ -194,6 +216,24 @@ class config:
         fail_ip = self.execute_script_for_many(addresses, command, script_path, check_func, words)
         if fail_ip:
             self.process_status = False
+
+    def close_ssh_con(self):
+        for con in self.ssh_con:
+            con.close_ssh_client()
+
+    def print_info(self,info):
+        print('+' + '-' * 100 + '+')
+        print('|' + info.center(100) + '|')
+        print('+' + '-' * 100 + '+')
+
+    def expect_script_with_pos_variable(self, ip, script_path, pos_variadlbs, words):
+        filename = script_path.split('/')[-1]
+        remote_path = self.path_head + filename
+        sftp_document(ip, self.passwd, script_path, remote_path)
+        variadles = ' '.join(pos_variadlbs)
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('expect '+ remote_path + " " + variadles)
+        print('\t' + ip + ":", 'success to '+words if stdout.read() else 'failed to '+words)
+        return filename
 
 if __name__ == '__main__':
     w=config('1',[2])

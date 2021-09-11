@@ -66,6 +66,7 @@ class web_config(config):
     # ---------------------------------------------above methods only for self.handover----------------------------------------------
 
     def start(self):
+        self.print_info('Start Web Config')
 
         self.start_ip_and_yum_checking()
 
@@ -73,7 +74,7 @@ class web_config(config):
         print("-----------------------------Start package installation-------------------------------")
         for ip in self.addresses:
             if ip == self.handover:
-                command = 'rpm -q gcc openssl-devel pcre-devel mariadb mariadb-server mariadb-devel php php-mysql php-fpm unzip ceph-common'
+                command = 'rpm -q gcc openssl-devel pcre-devel mariadb mariadb-server mariadb-devel php php-mysql php-fpm unzip ceph-common tcl expect'
                 # pit = packages_installation_Thread(self, self.lock,ip,command,self.handover_packages_path,rpm_string)
                 th = threading.Thread(target=self.packages_installation,
                                       args=(ip, command, self.handover_packages_path, rpm_string,))
@@ -97,7 +98,7 @@ class web_config(config):
         threads = []
         print("-----------------------------Start nginx installation-------------------------------")
         command = "ls /usr/local/nginx | wc -l"
-        nginx_fail_ip = self.check_it(self.addresses, command, nginx_check)
+        nginx_fail_ip = self.check_all(self.addresses, command, nginx_check)
         for ip in nginx_fail_ip:
             self.trans_file(ip, self.nginx_path)
             # self.nginx_installation(ip, command, self.nginx_installer_path, nginx_check)
@@ -190,10 +191,9 @@ class web_config(config):
             print("Pleace check these host")
             return
 
-        for con in self.ssh_con:
-            con.close_ssh_client()
+        # self.close_ssh_con()
+        self.print_info('Web Config finished')
 
-        print("webwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebwebweb")
 
 
 
@@ -204,11 +204,10 @@ if __name__ == '__main__':
     w.start()
 
     # con = ssh_connection(passwd, ip[0])
-    # stdin, stdout, stderr = con.ssh_client.exec_command("yum provides python3")
-    # # print("stdout:", stdout.read().decode())
-    # resu = re.findall(r'python3',stdout.read().decode())
-    # print(True if resu else False)
+    # stdin, stdout, stderr = con.ssh_client.exec_command("""mysql -e 'select count(*) from mysql.user where User="wordpress"'""")
+    # print("stdout:", stdout.read().decode())
     # con.close_ssh_client()
+
 
 
 

@@ -40,15 +40,7 @@ class ceph_config(config):
         flag_value = check_func(stdout.read().decode())
         return flag_value, filename
 
-    def expect_script_with_pos_variable(self, ip, script_path, pos_variadlbs):
-        filename = script_path.split('/')[-1]
-        remote_path = self.path_head + filename
-        sftp_document(ip, self.passwd, script_path, remote_path)
-        file_type = script_path.split('.')[-1]
-        variadles = ' '.join(pos_variadlbs)
-        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command(self.type[file_type] + remote_path + " " + variadles)
-        print('\t' + ip + ":", 'success to receive a secret key' if stdout.read() else 'failed to receive a secret key')
-        return filename
+
 
 
     def set_chrony(self, ip, command, script_path, check_func, pos_variadlb, wait_seconds):
@@ -61,10 +53,11 @@ class ceph_config(config):
             self.process_status = False
 
     def start(self):
+        self.print_info('Start Ceph Config')
         self.start_ip_and_yum_checking()
         print("-----------------------------Start yum ceph repository checking-------------------------------")
         command = 'yum provides ceph-mon'
-        fail_ip = self.check_it(self.addresses, command, ceph_mon_check)
+        fail_ip = self.check_all(self.addresses, command, ceph_mon_check)
         words = "create the /etc/yum.repos.d/ceph.repo"
         ceph_fail_ip = self.execute_script_for_many(fail_ip, command, self.ceph_repo_creator_path,
                                                     ceph_mon_check, words)
@@ -174,7 +167,8 @@ class ceph_config(config):
         for i in range(len(self.addresses)):
             stdin, stdout, stderr = self.ip_con[self.addresses[i]].ssh_client.exec_command("rm -rf /root/.ssh/authorized_keys")
             print('\t' + self.addresses[i] + ":", stdout.read().decode(),end='')
-            filename = self.expect_script_with_pos_variable(self.manager, self.autocopy_path, [self.addresses[i], self.passwd])
+            words = "receive a secret key"
+            filename = self.expect_script_with_pos_variable(self.manager, self.autocopy_path, [self.addresses[i], self.passwd],words)
             self.ip_con[self.manager].ssh_client.exec_command('rm -rf '+self.path_head + filename)
 
 
@@ -248,10 +242,8 @@ class ceph_config(config):
         else:
             print(" failed to create a file system")
             return
-
-        for con in self.ssh_con:
-            con.close_ssh_client()
-        print("cephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephcephceph")
+        # self.close_ssh_con()
+        self.print_info('Ceph Config finished')
 
 
 if __name__ == '__main__':

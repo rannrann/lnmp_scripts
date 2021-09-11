@@ -57,12 +57,11 @@ After user complete the wordpress configuration, do the operations as follow:
 
 operaton:1 stop nginx，php-fpm service for web hosts
             1.1 check services
-         2 stop mariadb service for handover
-            2.1 check services
          above 1
          3 export data from wordpress database on handover , scp to database host to which exported database will be imported
             3.1 python check
          above 2
+            stop and disable mariadb service on handover
          4 modify the content specifies database host in the wordpress config file, which is a php file
             4.1 no check
          5 put the all php pages into a tar document, and than move out of /usr/local/nginx/html

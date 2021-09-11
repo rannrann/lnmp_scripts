@@ -10,6 +10,7 @@ class database_config(config):
 
 
     def start(self):
+        self.print_info('Start Database Config')
         self.start_ip_and_yum_checking()
 
         threads = []
@@ -36,7 +37,7 @@ class database_config(config):
 
         print("-----------------------------start installing python3-------------------------------")
         command = 'yum provides python3'
-        fail_ip = self.check_it(self.addresses, command, python3_check)
+        fail_ip = self.check_all(self.addresses, command, python3_check)
         if fail_ip:
             command = 'rpm -q python3'
             for ip in fail_ip:
@@ -66,11 +67,9 @@ class database_config(config):
             print("Pleace check these host")
             return
 
+        # self.close_ssh_con()
+        self.print_info('Database Config finished')
 
-        for con in self.ssh_con:
-            con.close_ssh_client()
-
-        print("databasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabasedatabase")
 
 if __name__ == '__main__':
     passwd = '123456'

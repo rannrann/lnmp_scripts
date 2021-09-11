@@ -7,6 +7,7 @@ class proxy_config(config):
         self.master = self.addresses[0]
 
     def start(self):
+        self.print_info('Start Proxy Config')
         self.start_ip_and_yum_checking()
 
         threads = []
@@ -34,10 +35,8 @@ class proxy_config(config):
             print("Pleace check these host")
             return
 
-        for con in self.ssh_con:
-            con.close_ssh_client()
-
-        print("proxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxyproxy")
+        # self.close_ssh_con()
+        self.print_info('Proxy Config finished')
 
 if __name__ == '__main__':
     passwd = '123456'

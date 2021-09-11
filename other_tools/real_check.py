@@ -118,6 +118,13 @@ def ceph_fs_check(stdout):
     resu = re.findall(r'name', stdout)
     return True if resu else False
 
+def data_check(stdout):
+    resu = re.findall(r'0', stdout)
+    return True if resu else False
+
+def mount_check(stdout):
+    return True if not stdout else False
+
 if __name__ == '__main__':
     s='1a111111111a1111111111111111a111111111a'
     s2 = s.replace('a','s')
