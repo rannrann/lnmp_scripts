@@ -65,6 +65,11 @@ class web_config(config):
             self.process_status = False
     # ---------------------------------------------above methods only for self.handover----------------------------------------------
 
+    def get_last_ip_from_access_log(self, ip):
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('tail -1 /usr/local/nginx/logs/access.log')
+        resu = re.findall(r'\d+\.\d+\.\d+\.\d+', stdout.read().decode())
+        return resu[0]
+
     def start(self):
         self.print_info('Start Web Config')
 
@@ -201,7 +206,8 @@ if __name__ == '__main__':
     passwd = '123456'
     ip = ['192.168.2.11','192.168.2.12','192.168.2.13'] #
     w = web_config(passwd,ip)
-    w.start()
+    w.start_ip_and_yum_checking()
+    print(w.get_last_ip_from_access_log(ip[0]))
 
     # con = ssh_connection(passwd, ip[0])
     # stdin, stdout, stderr = con.ssh_client.exec_command("""mysql -e 'select count(*) from mysql.user where User="wordpress"'""")

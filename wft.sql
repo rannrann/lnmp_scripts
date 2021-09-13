@@ -492,3 +492,18 @@ insert into departments(salary_id, employee_id, basic, data) values
 (3, 3, 5000, '2000-01-03'),
 (4, 4, 6000, '2000-01-03');
 
+CHANGE MASTER TO
+  MASTER_HOST='master2.mycompany.com',
+  MASTER_USER='replication',
+  MASTER_PASSWORD='bigs3cret',
+  MASTER_PORT=3306, #可以不写
+  MASTER_LOG_FILE='master2-bin.001',
+  MASTER_LOG_POS=4,
+  MASTER_CONNECT_RETRY=10; #可以不写
+
+change master to
+master_host="192.168.1.12",
+master_user="repluser",
+master_password="NSD2021@tedu.cn",
+master_log_file="master12.000004",
+master_log_pos=417;

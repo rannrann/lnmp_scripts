@@ -57,6 +57,8 @@ class config:
         self.pack_pages_path = "../scripts/pack_pages.sh"
         self.mount_ceph_path = "../scripts/mount_ceph.sh"
         self.unpack_pages_path = "../scripts/unpack_pages.sh"
+        self.modify_haproxy_conf_path = "../scripts/modify_haproxy_conf.sh"
+        self.test_roundrobin_path = "../scripts/test_roundrobin.sh"
 
     def initialize_scripts(self):
         with open(self.config_mysql_on_web_path, 'r') as r:
@@ -81,6 +83,7 @@ class config:
         filename = local_path.split('/')[-1]
         remote_path = self.path_head + filename
         sftp_document(ip, self.passwd, local_path, remote_path)
+        return filename
 
     def check_all(self, addresses, command, check_func):
         fail_ip = []
