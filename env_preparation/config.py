@@ -59,6 +59,8 @@ class config:
         self.unpack_pages_path = "../scripts/unpack_pages.sh"
         self.modify_haproxy_conf_path = "../scripts/modify_haproxy_conf.sh"
         self.test_roundrobin_path = "../scripts/test_roundrobin.sh"
+        self.modify_keepalived_conf_for_backup_path = '../scripts/modify_keepalived_conf_for_backup.sh'
+        self.modify_keepalived_conf_for_master_path = '../scripts/modify_keepalived_conf_for_master.sh'
 
     def initialize_scripts(self):
         with open(self.config_mysql_on_web_path, 'r') as r:
@@ -98,7 +100,7 @@ class config:
         remote_path = self.path_head + filename
         sftp_document(ip, self.passwd, script_path, remote_path)
         variable = ' '.join(variable_list) if variable_list else ''
-        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('bash ' + self.path_head + filename +" "+ variable)
+        stdin, stdout, stderr = self.ip_con[ip].ssh_client.exec_command('bash ' + self.path_head + filename + " " + variable)
         flag = check_func(stdout.read().decode())
         print('\t'+ip+":", end='')
         return flag, filename

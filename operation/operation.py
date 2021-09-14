@@ -172,33 +172,33 @@ class operation:
         # else:
         #     print("\tAll web hosts start nginx and php-fpm")
         #
-        # self.close_ssh_con()
 
-        # print("---------------------------------------modify /etc/haproxy/haproxy.cfg-----------------------------------------")
-        # ip_hostname={}
-        # for ip in self.web.addresses:
-        #     stdin, stdout, stderr = self.web.ip_con[ip].ssh_client.exec_command('hostname')
-        #     resu = re.findall(r'\w+', stdout.read().decode())
-        #     ip_hostname[ip] = resu[0]
-        # content=['#!/bin/bash\n', 'echo "listen wordpress *:80\n', '  balance roundrobin\n']
-        # for ip, hostname in ip_hostname.items():
-        #     content.append('  server '+hostname+' '+ip+':80 check\n')
-        # content.append('" >> /etc/haproxy/haproxy.cfg')
-        # with open(self.web.modify_haproxy_conf_path,'w') as w:
-        #     for line in content:
-        #         w.write(line)
-        #
-        #
-        # print("---------------------------------------start haproxy service-----------------------------------------")
-        #
-        # command = 'systemctl enable haproxy --now; systemctl status haproxy'
-        # words = 'start haproxy service'
-        # fail_ip = self.proxy.execute_script_for_many(self.proxy.addresses, command, self.proxy.modify_haproxy_conf_path, services_check, words)
-        # if fail_ip:
-        #     print("\tPlease check theses hosts")
-        #     return
-        # else:
-        #     print("\tHaproxy for all proxy hosts is ready")
+
+        print("---------------------------------------modify /etc/haproxy/haproxy.cfg-----------------------------------------")
+        ip_hostname={}
+        for ip in self.web.addresses:
+            stdin, stdout, stderr = self.web.ip_con[ip].ssh_client.exec_command('hostname')
+            resu = re.findall(r'\w+', stdout.read().decode())
+            ip_hostname[ip] = resu[0]
+        content=['#!/bin/bash\n', 'echo "listen wordpress *:80\n', '  balance roundrobin\n']
+        for ip, hostname in ip_hostname.items():
+            content.append('  server '+hostname+' '+ip+':80 check\n')
+        content.append('" >> /etc/haproxy/haproxy.cfg')
+        with open(self.web.modify_haproxy_conf_path,'w') as w:
+            for line in content:
+                w.write(line)
+
+
+        print("---------------------------------------start haproxy service-----------------------------------------")
+
+        command = 'systemctl enable haproxy --now; systemctl status haproxy'
+        words = 'start haproxy service'
+        fail_ip = self.proxy.execute_script_for_many(self.proxy.addresses, command, self.proxy.modify_haproxy_conf_path, services_check, words)
+        if fail_ip:
+            print("\tPlease check theses hosts")
+            return
+        else:
+            print("\tHaproxy for all proxy hosts is ready")
 
         print("---------------------------------------test roundrobin-----------------------------------------")
         filename = self.web.trans_file(self.web.handover, self.web.test_php_path)
@@ -208,7 +208,7 @@ class operation:
         for proxy_ip in self.proxy.addresses:
             content=['#!/bin/bash\n']
             for _ in self.web.addresses:
-                content.append("curl "+proxy_ip+"/test2.php &> /dev/null\n")
+                content.append("curl "+proxy_ip+"/test.php &> /dev/null\n")
             with open(self.proxy.test_roundrobin_path,'w') as w:
                 for line in content:
                     w.write(line)
@@ -223,12 +223,35 @@ class operation:
                 else:
                     print('\t' + web_ip + ' was not accessed')
 
+        print("---------------------------------------start keepalived service-----------------------------------------")
+        command = 'echo a > /dev/null'
+        vip = input("please input a vip for proxy hosts:")
+        flag, filename = self.proxy.execute_script_for_one(self.proxy.addresses[0], command,
+                                          self.proxy.modify_keepalived_conf_for_master_path,
+                                          no_check, [vip])
+        print(' successed to modify keepalived.conf')
+        self.proxy.ip_con[self.proxy.addresses[0]].ssh_client.exec_command('rm -rf ' + self.proxy.path_head + filename)
+        self.proxy.execute_script_for_one(self.proxy.addresses[-1], command,
+                                          self.proxy.modify_keepalived_conf_for_backup_path,
+                                          no_check, [vip])
+        print(' successed to modify keepalived.conf')
+        self.proxy.ip_con[self.proxy.addresses[-1]].ssh_client.exec_command('rm -rf ' + self.proxy.path_head + filename)
+        for ip in self.proxy.addresses:
+            stdin, stdout, stderr = self.proxy.ip_con[ip].ssh_client.exec_command('systemctl enable keepalived --now')
+            print('\t'+ip+stdout.read().decode()+': start keepalived service')
 
 
+        stdin, stdout, stderr = self.proxy.ip_con[self.proxy.addresses[0]].ssh_client.exec_command('systemctl stop keepalived')
+        print('\t' + self.proxy.addresses[0] + stdout.read().decode() + ': stop keepalived service')
+        stdin, stdout, stderr = self.proxy.ip_con[self.proxy.addresses[0]].ssh_client.exec_command('curl '+vip+'/test.php')
+        flag = keepalived_check(stdout.read().decode())
+        if flag:
+            print("Keepalived running with no problem")
+            self.proxy.ip_con[self.proxy.addresses[0]].ssh_client.exec_command('systemctl start keepalived')
+        else:
+            print("Keepalived running unexpectly. Please check.")
 
-
-
-
+        self.close_ssh_con()
 
 if __name__ == "__main__":
     passwd = '123456'
@@ -243,15 +266,15 @@ if __name__ == "__main__":
     o.set_database(database_ip)
     o.set_git(git_ip)
     o.set_proxy(proxy_ip)
-    # o.env_preparation()
-    # answer = input("Please complete the installation of wordpress on the "+web_ip[0]+
-    #       ". \nIf you prepare to continue the process, please press y; If you want to stop the process, please press n:")
-    # if answer=='y':
-    #     o.start()
-    # else:
-    #     o.close_ssh_con()
+    o.env_preparation()
+    answer = input("Please complete the installation of wordpress on the "+web_ip[0] +
+          ". \nIf you prepare to continue the process, please press y; If you want to stop the process, please press n:")
+    if answer == 'y':
+        o.start()
+    else:
+        o.close_ssh_con()
 
-    o.start()
+    # o.start()
 
 
     # s = ssh_connection(passwd, ceph_ip[0])

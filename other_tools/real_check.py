@@ -125,6 +125,10 @@ def data_check(stdout):
 def mount_check(stdout):
     return True if not stdout else False
 
+def keepalived_check(stdout):
+    resu = re.findall(r'File not found', stdout)
+    return False if resu else True
+
 if __name__ == '__main__':
     s='1a111111111a1111111111111111a111111111a'
     s2 = s.replace('a','s')

@@ -205,14 +205,15 @@ class web_config(config):
 if __name__ == '__main__':
     passwd = '123456'
     ip = ['192.168.2.11','192.168.2.12','192.168.2.13'] #
-    w = web_config(passwd,ip)
-    w.start_ip_and_yum_checking()
-    print(w.get_last_ip_from_access_log(ip[0]))
+    # w = web_config(passwd,ip)
+    # w.start_ip_and_yum_checking()
+    # print(w.get_last_ip_from_access_log(ip[0]))
 
-    # con = ssh_connection(passwd, ip[0])
-    # stdin, stdout, stderr = con.ssh_client.exec_command("""mysql -e 'select count(*) from mysql.user where User="wordpress"'""")
-    # print("stdout:", stdout.read().decode())
-    # con.close_ssh_client()
+    con = ssh_connection(passwd, ip[0])
+    stdin, stdout, stderr = con.ssh_client.exec_command("curl 192.168.2.11/test2.php")
+    resu = re.findall(r'File not found', stdout.read().decode())
+    print(False if resu else True)
+    con.close_ssh_client()
 
 
 
